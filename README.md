@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stories by Arvind — Wedding & Traditional Photography (Next.js)
 
-## Getting Started
+A photography studio web application for **Stories by Arvind**, based in Hospet near Hampi, Karnataka.
 
-First, run the development server:
+Converted from a static single-page website into a high-performance, modular **Next.js 16 (App Router)** application with **Tailwind CSS v4**, **TypeScript**, and interactive booking workflows.
+
+---
+
+## 🌟 Key Features
+
+- **Warm Aesthetic Design System**: Tailored palette reflecting South Indian tradition and Hampi stone architecture: Linen (`#FAF6F0`), Ivory (`#F3EDE2`), Terracotta (`#B85D3B`), Haldi (`#D99B26`), and Espresso (`#231F1E`).
+- **Typography**: Google Fonts *Cormorant Garamond* (Serif) & *Plus Jakarta Sans* (Sans).
+- **Shoot Selection & Booking**:
+  - 6 dedicated shoot categories: Traditional Weddings, Maternity (Seemantham), Kids & Birthdays, Gruhapravesha (House Warming), Hampi Heritage Pre-Weddings, and Naming/Engagement ceremonies.
+  - Interactive shoot chips that pre-fill the inquiry form and smooth-scroll to booking.
+- **Interactive Portfolio Gallery**:
+  - Filter by celebration category (*All*, *Weddings*, *Maternity*, *Birthdays*, *House Warming*, *Hampi Pre-Wedding*).
+  - Full-screen Lightbox with image navigation and location captions.
+- **WhatsApp Direct Booking Engine**:
+  - Instant WhatsApp inquiry builder (`wa.me/+919449606163`) that formats event date, venue, rituals, and client details into a clean message.
+- **Master Studio CMS**:
+  - Accessible via the `⚙️` button in the header or the footer link.
+  - Allows live editing of studio info, hero copy, photographer bio, contact numbers, and packages with LocalStorage persistence.
+- **Asset Optimization**: High-resolution photography extracted into web-optimized local images in `public/images/`, replacing multi-megabyte inline base64 blobs for lightning-fast page loads.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Turbopack)
+- **Language**: TypeScript
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Fonts**: `next/font/google` (*Cormorant Garamond* & *Plus Jakarta Sans*)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+storiesbyaravind-next/
+├── public/
+│   └── images/              # Optimized studio photography assets
+├── src/
+│   ├── app/
+│   │   ├── globals.css      # Tailwind v4 theme tokens
+│   │   ├── layout.tsx       # Root layout & Google fonts
+│   │   └── page.tsx         # Studio homepage & CMS state management
+│   ├── components/
+│   │   ├── Navbar.tsx        # Sticky header with WhatsApp CTA
+│   │   ├── Hero.tsx          # Hero visual, story headline, and stats
+│   │   ├── ShootsGrid.tsx    # Shoot types & booking selection
+│   │   ├── Gallery.tsx       # Portfolio grid with filter tabs & lightbox
+│   │   ├── About.tsx         # Storyteller bio & photographer portrait
+│   │   ├── Packages.tsx      # Pricing tiers & feature checklist
+│   │   ├── BookingSection.tsx# Interactive WhatsApp inquiry builder
+│   │   ├── Footer.tsx        # Studio branding & navigation
+│   │   └── AdminCMSModal.tsx # Live studio content editor
+│   └── data/
+│       └── defaultData.ts    # Typed studio data models & defaults
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2026 Stories by Arvind. All rights reserved.
