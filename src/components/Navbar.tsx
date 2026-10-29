@@ -2,13 +2,15 @@
 
 import React, { useState } from "react";
 import { StudioData } from "@/data/defaultData";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 
 interface NavbarProps {
   data: StudioData;
   onOpenAdmin?: () => void;
+  isAdminLoggedIn?: boolean;
 }
 
-export default function Navbar({ data, onOpenAdmin }: NavbarProps) {
+export default function Navbar({ data, onOpenAdmin, isAdminLoggedIn = false }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const whatsappUrl = `https://wa.me/${data.whatsapp}?text=${encodeURIComponent(
@@ -17,63 +19,77 @@ export default function Navbar({ data, onOpenAdmin }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 bg-linen/95 backdrop-blur-md border-b border-espresso/10 transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Brand */}
-        <a href="#" className="flex flex-col group">
-          <span className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-espresso group-hover:text-terracotta transition">
+        <a href="#" className="flex flex-col group py-1 min-w-0 pr-2">
+          <span className="font-serif text-lg sm:text-2xl md:text-3xl font-bold tracking-tight text-espresso group-hover:text-terracotta transition leading-tight truncate">
             {data.brandName}
           </span>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-terracotta font-semibold -mt-1">
+          <span className="text-[8.5px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-terracotta font-semibold truncate">
             {data.brandSub}
           </span>
         </a>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center space-x-7 text-sm font-medium text-charcoal">
-          <a href="#shoots" className="hover:text-terracotta transition">
-            {data.nav1}
-          </a>
+        <nav className="hidden xl:flex items-center space-x-6 text-sm font-medium text-charcoal">
           <a href="#portfolio" className="hover:text-terracotta transition">
-            {data.nav2}
+            Portfolio
+          </a>
+          <a href="#shoots" className="hover:text-terracotta transition">
+            Shoots
+          </a>
+          <a href="#hampi-guide" className="hover:text-terracotta transition">
+            Hampi Guide
           </a>
           <a href="#about" className="hover:text-terracotta transition">
-            {data.nav3}
+            About Arvind
+          </a>
+          <a href="#reviews" className="hover:text-terracotta transition">
+            Reviews
+          </a>
+          <a href="#estimator" className="hover:text-terracotta transition">
+            Estimate
           </a>
           <a href="#packages" className="hover:text-terracotta transition">
-            {data.nav4}
+            Packages
           </a>
-          <a href="#contact" className="hover:text-terracotta transition">
-            {data.nav5}
+          <a href="#faq" className="hover:text-terracotta transition">
+            FAQs
           </a>
         </nav>
 
-        {/* Right CTA & Admin Trigger */}
-        <div className="flex items-center gap-3">
-          {onOpenAdmin && (
+        {/* Right Controls: WhatsApp & Hamburger */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {isAdminLoggedIn && onOpenAdmin && (
             <button
               onClick={onOpenAdmin}
               title="Studio Settings"
-              className="text-xs text-charcoal/60 hover:text-terracotta p-1.5 rounded-lg border border-espresso/10 hover:border-terracotta/40 transition"
+              className="text-xs text-charcoal/60 hover:text-terracotta p-1.5 rounded-lg border border-espresso/10 hover:border-terracotta/40 transition cursor-pointer"
             >
               ⚙️
             </button>
           )}
 
+          {/* Official WhatsApp Button (Circular icon on mobile, neat pill on desktop) */}
           <a
             id="nav-whatsapp-btn"
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-terracotta hover:bg-espresso text-white text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-full transition shadow-sm inline-flex items-center gap-1.5"
+            aria-label="Contact Arvind on WhatsApp"
+            className="w-10 h-10 sm:w-auto sm:h-auto rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white sm:px-4 sm:py-2.5 transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
+            title="Chat with Arvind on WhatsApp"
           >
-            <span>💬</span>
-            <span>{data.navBtnText}</span>
+            <WhatsAppIcon className="w-5 h-5 fill-current shrink-0 text-white" />
+            <span className="hidden sm:inline text-xs sm:text-sm font-semibold whitespace-nowrap">
+              {data.navBtnText || "WhatsApp Us"}
+            </span>
           </a>
 
-          {/* Mobile hamburger button */}
+          {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-espresso p-2 focus:outline-none"
+            className="xl:hidden w-10 h-10 rounded-full hover:bg-espresso/5 flex items-center justify-center text-espresso focus:outline-none cursor-pointer transition shrink-0"
             aria-label="Toggle menu"
           >
             <svg
@@ -104,42 +120,82 @@ export default function Navbar({ data, onOpenAdmin }: NavbarProps) {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-linen border-b border-espresso/10 px-4 pt-2 pb-6 space-y-3">
-          <a
-            href="#shoots"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
-          >
-            {data.nav1}
-          </a>
+        <div className="xl:hidden bg-linen border-b border-espresso/10 px-6 pt-3 pb-6 space-y-3 shadow-lg">
           <a
             href="#portfolio"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
           >
-            {data.nav2}
+            Portfolio & Real Stories
+          </a>
+          <a
+            href="#shoots"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
+          >
+            Every Milestone (Shoots We Cover)
+          </a>
+          <a
+            href="#hampi-guide"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
+          >
+            Hampi Shoot Guide 🏛️
           </a>
           <a
             href="#about"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
           >
-            {data.nav3}
+            About Arvind
+          </a>
+          <a
+            href="#reviews"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
+          >
+            Client Reviews ★★★★★
+          </a>
+          <a
+            href="#estimator"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
+          >
+            Custom Cost Estimator 💰
           </a>
           <a
             href="#packages"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
           >
-            {data.nav4}
+            Packages
+          </a>
+          <a
+            href="#faq"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
+          >
+            FAQs
           </a>
           <a
             href="#contact"
             onClick={() => setMobileMenuOpen(false)}
-            className="block text-base font-medium text-charcoal hover:text-terracotta py-1"
+            className="block text-base font-medium text-terracotta font-bold py-1"
           >
-            {data.nav5}
+            Check Availability / Book Now →
           </a>
+          <div className="pt-2 border-t border-espresso/10">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm shadow-sm transition active:scale-98"
+            >
+              <WhatsAppIcon className="w-5 h-5 fill-current shrink-0" />
+              <span>Chat on WhatsApp</span>
+            </a>
+          </div>
         </div>
       )}
     </header>

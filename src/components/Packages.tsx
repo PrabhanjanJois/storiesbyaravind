@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import { PackageTier } from "@/data/defaultData";
 
 interface PackagesProps {
@@ -37,15 +38,15 @@ export default function Packages({
       </div>
 
       {/* Package Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
         {packages.map((pkg, index) => {
-          const isFeatured = index === 1; // Middle wedding package is featured
+          const isFeatured = pkg.badge ? true : index === 1; // Highlighted if marked with badge or middle tier
           return (
             <div
               key={index}
-              className={`rounded-2xl p-7 flex flex-col justify-between transition-all duration-300 relative ${
+              className={`rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 relative ${
                 isFeatured
-                  ? "bg-espresso text-linen shadow-2xl scale-100 md:-translate-y-2 border-2 border-haldi/60"
+                  ? "bg-espresso text-linen shadow-2xl scale-100 lg:-translate-y-2 border-2 border-haldi/60"
                   : "bg-white text-espresso border border-espresso/10 shadow-sm hover:shadow-lg"
               }`}
             >
@@ -111,7 +112,8 @@ export default function Packages({
                       : "bg-terracotta hover:bg-espresso text-white"
                   }`}
                 >
-                  <span>💬 Check Dates & Pricing</span>
+                  <WhatsAppIcon className="w-4 h-4 fill-current shrink-0" />
+                  <span>Check Dates & Pricing</span>
                 </a>
               </div>
             </div>

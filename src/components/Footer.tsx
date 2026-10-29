@@ -6,9 +6,10 @@ import { StudioData } from "@/data/defaultData";
 interface FooterProps {
   data: StudioData;
   onOpenAdmin?: () => void;
+  isAdminLoggedIn?: boolean;
 }
 
-export default function Footer({ data, onOpenAdmin }: FooterProps) {
+export default function Footer({ data, onOpenAdmin, isAdminLoggedIn = false }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -43,7 +44,7 @@ export default function Footer({ data, onOpenAdmin }: FooterProps) {
           <a href="#contact" className="hover:text-terracotta transition">
             Book Now
           </a>
-          {onOpenAdmin && (
+          {isAdminLoggedIn && onOpenAdmin && (
             <button
               onClick={onOpenAdmin}
               className="text-xs text-haldi hover:underline cursor-pointer"

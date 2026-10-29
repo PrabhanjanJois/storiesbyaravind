@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import { StudioData } from "@/data/defaultData";
 
 interface BookingSectionProps {
@@ -287,7 +288,8 @@ Please let us know your availability and customized quotation. Thank you!`;
                   type="submit"
                   className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-6 rounded-full text-sm transition shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>💬 Send Inquiry on WhatsApp</span>
+                  <WhatsAppIcon className="w-5 h-5 fill-current shrink-0" />
+                  <span>Send Inquiry on WhatsApp</span>
                   <span>→</span>
                 </button>
 
