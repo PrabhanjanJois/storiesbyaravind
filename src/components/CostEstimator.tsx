@@ -63,32 +63,31 @@ export default function CostEstimator({
     );
   };
 
-  // Calculate estimated price range
+  // Calculate estimated price range based strictly on deliverables (Step 3) and celebration days (Step 1)
   const calculateEstimate = () => {
     let total = 0;
-    availableEvents.forEach((ev) => {
-      if (selectedEvents.includes(ev.name)) {
-        total += ev.base;
-      }
-    });
 
+    // Pricing is driven solely by selected deliverables & crew services (Step 3)
     availableDeliverables.forEach((del) => {
       if (selectedDeliverables.includes(del.name)) {
         total += del.price;
       }
     });
 
-    // Multi-day scaling factor
-    if (days === 2) total *= 1.45;
-    if (days >= 3) total *= 1.85;
+    if (total === 0) {
+      return { min: "₹0", max: "₹0", total: 0 };
+    }
 
-    if (total === 0) return { min: "₹15,000", max: "₹25,000" };
+    // Multi-day scaling factor based on event duration
+    if (days === 2) total *= 1.5;
+    if (days >= 3) total *= 2.0;
 
-    const min = Math.round(total * 0.9 / 1000) * 1000;
-    const max = Math.round(total * 1.15 / 1000) * 1000;
+    const min = Math.round((total * 0.95) / 1000) * 1000;
+    const max = Math.round((total * 1.1) / 1000) * 1000;
     return {
       min: `₹${min.toLocaleString("en-IN")}`,
       max: `₹${max.toLocaleString("en-IN")}`,
+      total,
     };
   };
 
@@ -100,8 +99,8 @@ I used your website's Custom Package Estimator:
 
 📅 Event Duration: ${days} Day(s)
 🎉 Selected Events: ${selectedEvents.join(", ") || "None specified"}
-📦 Deliverables: ${selectedDeliverables.join(", ") || "Standard"}
-💰 Estimated Range: ${estimate.min} – ${estimate.max}
+📦 Deliverables: ${selectedDeliverables.join(", ") || "None selected"}
+💰 Estimated Range: ${estimate.total === 0 ? "Custom Quote" : `${estimate.min} – ${estimate.max}`}
 
 Could you please confirm your availability and provide an exact quotation?`;
 
@@ -253,10 +252,14 @@ Could you please confirm your availability and provide an exact quotation?`;
                   Estimated Investment Range
                 </span>
                 <div className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                  {estimate.min} – {estimate.max}
+                  {estimate.total === 0 ? "Select Deliverables" : `${estimate.min} – ${estimate.max}`}
                 </div>
                 <p className="text-xs text-linen/70 mt-1 font-light">
-                  Tailored specifically for {days} day(s) with {selectedEvents.length} event(s)
+                  {estimate.total === 0
+                    ? "Select deliverables below to calculate your estimate"
+                    : `Tailored for ${days} day(s)${
+                        selectedEvents.length > 0 ? ` covering ${selectedEvents.length} event(s)` : ""
+                      }`}
                 </p>
               </div>
 
