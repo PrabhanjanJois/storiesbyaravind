@@ -78,9 +78,8 @@ export default function CostEstimator({
       return { min: "₹0", max: "₹0", total: 0 };
     }
 
-    // Multi-day scaling factor based on event duration
-    if (days === 2) total *= 1.5;
-    if (days >= 3) total *= 2.0;
+    // Directly multiply per-day rate by number of celebration days (no multi-day discount)
+    total *= days;
 
     const min = Math.round((total * 0.95) / 1000) * 1000;
     const max = Math.round((total * 1.1) / 1000) * 1000;
