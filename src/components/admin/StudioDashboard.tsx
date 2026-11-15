@@ -255,6 +255,35 @@ export default function StudioDashboard({
     });
   };
 
+  const handleAddShoot = () => {
+    const newShoot: ShootType = {
+      id: Date.now(),
+      title: "New Shoot Category",
+      tag: "Candid • Cinematic • Rituals",
+      price: "From ₹35,000",
+      desc: "Comprehensive coverage of your special celebration moments, authentic emotions, and family rituals.",
+      url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+    };
+    setFormData((prev) => ({
+      ...prev,
+      shootTypes: [...prev.shootTypes, newShoot],
+    }));
+  };
+
+  const handleRemoveShoot = (index: number) => {
+    if (formData.shootTypes.length <= 1) {
+      alert("At least one shoot category must remain.");
+      return;
+    }
+    const shootToRemove = formData.shootTypes[index];
+    if (confirm(`Are you sure you want to delete "${shootToRemove.title}" category?`)) {
+      setFormData((prev) => ({
+        ...prev,
+        shootTypes: prev.shootTypes.filter((_, i) => i !== index),
+      }));
+    }
+  };
+
   // -------------------- GALLERY --------------------
   const handleGalleryChange = (index: number, field: keyof GalleryItem, val: string) => {
     setFormData((prev) => {
@@ -997,13 +1026,23 @@ export default function StudioDashboard({
           {/* ==================== TAB 3: SHOOTS GRID ==================== */}
           {activeTab === "shoots" && (
             <div className="space-y-8 animate-in fade-in duration-150">
-              <div className="pb-4 border-b border-espresso/10">
-                <h3 className="font-serif text-2xl font-bold text-espresso">
-                  Celebration Shoot Categories
-                </h3>
-                <p className="text-xs sm:text-sm text-charcoal/70 font-light mt-1">
-                  Customize the 6 milestone celebration cards on the homepage with custom tags and pricing.
-                </p>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-espresso/10">
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-espresso">
+                    Celebration Shoot Categories ({formData.shootTypes.length})
+                  </h3>
+                  <p className="text-xs sm:text-sm text-charcoal/70 font-light mt-1">
+                    Customize your celebration cards on the homepage with custom tags, pricing, and photos.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAddShoot}
+                  className="px-4 py-2.5 rounded-full bg-terracotta hover:bg-espresso text-white text-xs font-semibold shadow-sm transition flex items-center gap-2 cursor-pointer w-fit shrink-0"
+                >
+                  <span>+</span>
+                  <span>Add Shoot Category</span>
+                </button>
               </div>
 
               <div className="space-y-6">
@@ -1012,9 +1051,21 @@ export default function StudioDashboard({
                     key={shoot.id}
                     className="p-6 rounded-3xl bg-white border border-espresso/15 shadow-sm space-y-4"
                   >
-                    <span className="text-xs font-bold uppercase tracking-wider text-terracotta block border-b border-espresso/10 pb-2">
-                      0{idx + 1} • {shoot.title}
-                    </span>
+                    <div className="flex items-center justify-between border-b border-espresso/10 pb-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-terracotta block">
+                        {idx + 1 < 10 ? `0${idx + 1}` : idx + 1} • {shoot.title}
+                      </span>
+                      {formData.shootTypes.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveShoot(idx)}
+                          className="text-xs text-red-500 hover:text-red-700 font-semibold px-2.5 py-1 rounded-md hover:bg-red-50 transition cursor-pointer"
+                          title="Delete category"
+                        >
+                          ✕ Delete
+                        </button>
+                      )}
+                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
@@ -1072,6 +1123,15 @@ export default function StudioDashboard({
                     />
                   </div>
                 ))}
+
+                <button
+                  type="button"
+                  onClick={handleAddShoot}
+                  className="w-full py-4 border-2 border-dashed border-terracotta/30 hover:border-terracotta text-terracotta hover:bg-terracotta/5 rounded-3xl font-semibold text-xs sm:text-sm transition flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span className="text-base font-bold">+</span>
+                  <span>Add Another Shoot Category</span>
+                </button>
               </div>
             </div>
           )}

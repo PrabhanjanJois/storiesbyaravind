@@ -35,17 +35,10 @@ export default function Home() {
       if (saved) {
         const parsed = JSON.parse(saved);
         setData((prev) => {
-          const mergedShootTypes = (parsed.shootTypes || prev.shootTypes || []).map(
-            (shoot: any, i: number) => {
-              const defaultShoot = DEFAULT_STUDIO_DATA.shootTypes[i] || {};
-              return {
-                ...defaultShoot,
-                ...shoot,
-                price: shoot.price || defaultShoot.price,
-                tag: shoot.tag || defaultShoot.tag,
-              };
-            }
-          );
+          const shootTypes =
+            parsed.shootTypes && parsed.shootTypes.length > 0
+              ? parsed.shootTypes
+              : DEFAULT_STUDIO_DATA.shootTypes;
 
           const featuredStories =
             parsed.featuredStories && parsed.featuredStories.length > 0
@@ -67,7 +60,7 @@ export default function Home() {
             ...parsed,
             heroSlides,
             hampiLocations,
-            shootTypes: mergedShootTypes,
+            shootTypes,
             featuredStories,
             customServiceTags:
               parsed.customServiceTags && parsed.customServiceTags.length > 0

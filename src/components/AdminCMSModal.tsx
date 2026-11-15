@@ -96,6 +96,35 @@ export default function AdminCMSModal({
     });
   };
 
+  const handleAddShoot = () => {
+    const newShoot: ShootType = {
+      id: Date.now(),
+      title: "New Shoot Category",
+      tag: "Candid • Cinematic • Rituals",
+      price: "From ₹35,000",
+      desc: "Comprehensive coverage of celebrations, rituals, candid emotions, and family moments.",
+      url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+    };
+    setFormData((prev) => ({
+      ...prev,
+      shootTypes: [...prev.shootTypes, newShoot],
+    }));
+  };
+
+  const handleRemoveShoot = (index: number) => {
+    if (formData.shootTypes.length <= 1) {
+      alert("At least one shoot category must remain.");
+      return;
+    }
+    const shootToRemove = formData.shootTypes[index];
+    if (confirm(`Are you sure you want to delete "${shootToRemove.title}" category?`)) {
+      setFormData((prev) => ({
+        ...prev,
+        shootTypes: prev.shootTypes.filter((_, i) => i !== index),
+      }));
+    }
+  };
+
   // Gallery Item Handlers
   const handleGalleryChange = (index: number, field: keyof GalleryItem, val: string) => {
     setFormData((prev) => {
@@ -424,13 +453,23 @@ export default function AdminCMSModal({
           {/* TAB 2: SHOOTS GRID IMAGES */}
           {activeTab === "shoots" && (
             <div className="space-y-6">
-              <div className="pb-2 border-b border-espresso/10">
-                <h4 className="font-serif text-lg font-bold text-espresso">
-                  Celebration Shoot Categories
-                </h4>
-                <p className="text-xs text-charcoal/70">
-                  Customize the 6 celebration category cards that clients browse and select.
-                </p>
+              <div className="flex items-center justify-between pb-2 border-b border-espresso/10">
+                <div>
+                  <h4 className="font-serif text-lg font-bold text-espresso">
+                    Celebration Shoot Categories ({formData.shootTypes.length})
+                  </h4>
+                  <p className="text-xs text-charcoal/70">
+                    Customize the celebration category cards that clients browse and select.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAddShoot}
+                  className="px-3.5 py-1.5 rounded-full bg-terracotta hover:bg-espresso text-white text-xs font-semibold shadow-xs transition flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>+</span>
+                  <span>Add Category</span>
+                </button>
               </div>
 
               <div className="space-y-5">
@@ -439,9 +478,20 @@ export default function AdminCMSModal({
                     key={shoot.id}
                     className="p-5 rounded-2xl bg-white border border-espresso/15 shadow-xs space-y-4"
                   >
-                    <span className="text-xs font-bold text-terracotta uppercase tracking-wider block border-b border-espresso/10 pb-2">
-                      0{idx + 1} • {shoot.title}
-                    </span>
+                    <div className="flex items-center justify-between border-b border-espresso/10 pb-2">
+                      <span className="text-xs font-bold text-terracotta uppercase tracking-wider block">
+                        0{idx + 1} • {shoot.title}
+                      </span>
+                      {formData.shootTypes.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveShoot(idx)}
+                          className="text-xs text-red-500 hover:text-red-700 font-semibold px-2 py-0.5 rounded hover:bg-red-50 transition cursor-pointer"
+                        >
+                          ✕ Delete
+                        </button>
+                      )}
+                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
@@ -487,6 +537,15 @@ export default function AdminCMSModal({
                     />
                   </div>
                 ))}
+
+                <button
+                  type="button"
+                  onClick={handleAddShoot}
+                  className="w-full py-3 border-2 border-dashed border-terracotta/30 hover:border-terracotta text-terracotta hover:bg-terracotta/5 rounded-2xl font-semibold text-xs transition flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span className="text-sm font-bold">+</span>
+                  <span>Add Another Shoot Category</span>
+                </button>
               </div>
             </div>
           )}

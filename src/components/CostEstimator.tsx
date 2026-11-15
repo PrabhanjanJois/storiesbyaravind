@@ -182,9 +182,6 @@ Could you please confirm your availability and provide an exact quotation?`;
                         </div>
                         <span className="text-sm font-medium">{ev.name}</span>
                       </div>
-                      <span className="text-xs font-semibold text-charcoal/70 bg-linen px-2 py-0.5 rounded-md ml-2 shrink-0">
-                        From ₹{ev.base.toLocaleString("en-IN")}
-                      </span>
                     </button>
                   );
                 })}
