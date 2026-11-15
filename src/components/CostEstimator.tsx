@@ -63,7 +63,7 @@ export default function CostEstimator({
     );
   };
 
-  // Calculate estimated price range based strictly on deliverables (Step 3) and celebration days (Step 1)
+  // Calculate estimated total based strictly on deliverables (Step 3) and celebration days (Step 1)
   const calculateEstimate = () => {
     let total = 0;
 
@@ -75,17 +75,14 @@ export default function CostEstimator({
     });
 
     if (total === 0) {
-      return { min: "₹0", max: "₹0", total: 0 };
+      return { formatted: "₹0", total: 0 };
     }
 
     // Directly multiply per-day rate by number of celebration days (no multi-day discount)
     total *= days;
 
-    const min = Math.round((total * 0.95) / 1000) * 1000;
-    const max = Math.round((total * 1.1) / 1000) * 1000;
     return {
-      min: `₹${min.toLocaleString("en-IN")}`,
-      max: `₹${max.toLocaleString("en-IN")}`,
+      formatted: `₹${total.toLocaleString("en-IN")}`,
       total,
     };
   };
@@ -99,7 +96,7 @@ I used your website's Custom Package Estimator:
 📅 Event Duration: ${days} Day(s)
 🎉 Selected Events: ${selectedEvents.join(", ") || "None specified"}
 📦 Deliverables: ${selectedDeliverables.join(", ") || "None selected"}
-💰 Estimated Range: ${estimate.total === 0 ? "Custom Quote" : `${estimate.min} – ${estimate.max}`}
+💰 Estimated Investment: ${estimate.total === 0 ? "Custom Quote" : estimate.formatted}
 
 Could you please confirm your availability and provide an exact quotation?`;
 
@@ -248,10 +245,10 @@ Could you please confirm your availability and provide an exact quotation?`;
             <div className="bg-espresso text-linen p-7 sm:p-8 rounded-3xl border border-terracotta/30 shadow-2xl space-y-6">
               <div className="border-b border-linen/15 pb-4">
                 <span className="text-[10px] uppercase tracking-widest text-amber-400 font-bold block mb-1">
-                  Estimated Investment Range
+                  Estimated Investment
                 </span>
                 <div className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                  {estimate.total === 0 ? "Select Deliverables" : `${estimate.min} – ${estimate.max}`}
+                  {estimate.total === 0 ? "Select Deliverables" : estimate.formatted}
                 </div>
                 <p className="text-xs text-linen/70 mt-1 font-light">
                   {estimate.total === 0
