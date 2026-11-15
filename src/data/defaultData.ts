@@ -18,7 +18,7 @@ export interface CustomServiceTag {
 export interface CustomEventTag {
   id: string;
   name: string;
-  base: number;
+  base?: number;
 }
 
 export interface HeroSlide {

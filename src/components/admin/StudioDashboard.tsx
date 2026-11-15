@@ -229,7 +229,7 @@ export default function StudioDashboard({
     const newEvent: CustomEventTag = {
       id: `event_${Date.now()}`,
       name: "Special Ritual / Sangeet Night",
-      base: 15000,
+      base: 0,
     };
     setFormData((prev) => ({
       ...prev,
@@ -956,15 +956,15 @@ export default function StudioDashboard({
                 </div>
               </div>
 
-              {/* Section 3: Event Rituals & Base Estimator Rates */}
+              {/* Section 3: Event Rituals & Ceremonies */}
               <div className="pt-8 border-t border-espresso/15 space-y-6">
                 <div className="flex items-center justify-between pb-3 border-b border-espresso/10">
                   <div>
                     <h4 className="font-serif text-xl font-bold text-espresso">
-                      Event Rituals & Base Rates
+                      Event Rituals &amp; Ceremonies
                     </h4>
                     <p className="text-xs text-charcoal/70 font-light mt-0.5">
-                      Set base ceremony rates for weddings, sangeet, pre-wedding, and maternity celebrations.
+                      Configure celebration rituals clients can select in Step 2 of the Cost Estimator (names only, pricing is determined by Deliverables).
                     </p>
                   </div>
                   <button
@@ -990,30 +990,22 @@ export default function StudioDashboard({
                           <button
                             type="button"
                             onClick={() => handleRemoveEventTag(eIdx)}
-                            className="text-[11px] text-red-500 hover:text-red-700 cursor-pointer"
+                            className="text-[11px] text-red-500 hover:text-red-700 cursor-pointer font-bold px-1.5 py-0.5 rounded hover:bg-red-50 transition"
                           >
                             ✕
                           </button>
                         )}
                       </div>
                       <div>
+                        <label className="block text-[10px] font-bold text-espresso uppercase mb-1">
+                          Ceremony / Ritual Name
+                        </label>
                         <input
                           type="text"
                           value={ev.name}
                           onChange={(e) => handleEventTagChange(eIdx, "name", e.target.value)}
                           placeholder="Event Ceremony Name"
-                          className="w-full px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-espresso/20 bg-linen/30 focus:border-terracotta outline-none"
-                        />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-charcoal/70 font-bold">Base ₹</span>
-                        <input
-                          type="number"
-                          value={ev.base}
-                          onChange={(e) =>
-                            handleEventTagChange(eIdx, "base", parseInt(e.target.value, 10) || 0)
-                          }
-                          className="flex-1 px-2.5 py-1 text-xs font-extrabold text-terracotta rounded-lg border border-espresso/20 bg-linen/30 focus:border-terracotta outline-none"
+                          className="w-full px-2.5 py-2 text-xs font-semibold rounded-lg border border-espresso/20 bg-linen/30 focus:border-terracotta outline-none"
                         />
                       </div>
                     </div>
